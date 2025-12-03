@@ -1,114 +1,1009 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eshan | Under Construction</title>
-  <link rel="icon" type="image/png" href="Logo-itseshan-space.png">
-  
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #1e1e1e;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
-      text-align: center;
-    }
-    .container {
-      max-width: 650px;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-    }
-    h1 span {
-      color: #e63946; 
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 15px;
-      color: #ccc;
-    }
-    a {
-      color: #e63946;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .loader {
-      border: 6px solid rgba(255,255,255,0.2);
-      border-top: 6px solid #e63946;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      margin: 20px auto;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-    .contact {
-      margin-top: 20px;
-      font-size: 1rem;
-      color: #aaa;
-    }
-    .social {
-      margin-top: 10px;
-      font-size: 1rem;
-    }
-    .social a {
-      margin: 0 10px;
-      color: #e63946;
-      text-decoration: none;
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eshan | Engineering & Rocketry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. IMPORT THE ORBITRON FONT */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-      p, .contact {
-        font-size: 0.95rem;
-      }
-      .loader {
-        width: 45px;
-        height: 45px;
-        border-width: 5px;
-      }
-    }
-  </style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(20, 20, 30, 0.8);
+            --primary-neon: #00f3ff;
+            --secondary-neon: #bc13fe;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --font-main: "Orbitron", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* REMOVED SCROLL SNAP */
+            cursor: none; /* Hide default cursor to use custom dot */
+        }
+
+        /* Re-enable default cursor for clickable items so user knows they can click */
+        a, button, .btn, .side-dot, input, textarea {
+            cursor: pointer; 
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- CUSTOM CURSOR DOT --- */
+        /* --- CUSTOM CURSOR (CLEAN 4-POINTED STAR) --- */
+        /* --- CUSTOM CURSOR (SOLID 4-POINT STAR) --- */
+        /* --- CUSTOM CURSOR (SOLID 4-POINT STAR) --- */
+        .cursor-dot {
+            position: fixed;
+            top: 0; left: 0;
+            width: 35px; height: 35px;
+            background-color: white;
+            
+            /* Star Shape */
+            clip-path: polygon(50% 0%, 63% 38%, 100% 50%, 63% 62%, 50% 100%, 37% 62%, 0% 50%, 37% 38%);
+            
+            pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
+            
+            /* UPDATED: Start hidden, animate opacity */
+            opacity: 0; 
+            transition: width 0.1s, height 0.1s, transform 0.1s, opacity 0.3s ease;
+        }
+
+        /* --- BACKGROUND GALAXY EFFECT --- */
+        .galaxy-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden;
+        }
+
+        .orb-system {
+            width: 70vw; height: 70vw; position: relative;
+            animation: spin-galaxy 20s linear infinite;
+        }
+
+        .orb {
+            position: absolute; width: 555px; height: 555px; border-radius: 50%;
+            filter: blur(100px); opacity: 0.15;
+        }
+        .orb-1 { background: var(--primary-neon); top: -100px; left: 10%; }
+        .orb-2 { background: var(--secondary-neon); bottom: -100px; right: 10%; }
+
+        @keyframes spin-galaxy {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- NAVIGATION (Smart Hide/Show) --- */
+        /* --- NAVIGATION BAR (UPDATED) --- */
+        nav {
+            display: flex;
+            justify-content: space-between; /* Keeps Socials Left, Links Right */
+            align-items: center;
+            /* Slimmer padding to hug the top */
+            padding: 15px 40px; 
+            background: rgba(5, 5, 5, 0.9); /* Slightly darker */
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            transition: top 0.4s ease-in-out;
+            top: 0;
+        }
+
+        /* Class added via JS to hide nav */
+        nav.nav-hidden {
+            top: -100px;
+        }
+
+        /* --- LEFT SIDE: SOCIAL ICONS --- */
+        .nav-socials a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.4rem;
+            margin-right: 20px;
+            transition: 0.3s;
+        }
+        .nav-socials a:hover {
+            color: var(--primary-neon);
+            transform: scale(1.1);
+        }
+
+        /* --- RIGHT SIDE: LINKS (SMALL & TOP RIGHT) --- */
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.3s;
+            
+            /* RESIZE: Smaller & Technical */
+            font-size: 0.75rem; 
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            
+            /* Spacing */
+            margin: 0; 
+            padding: 0 15px; /* Adds space for the pipe */
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        /* The Neon Number (01., 02.) styling */
+        .nav-num {
+            color: var(--primary-neon);
+            margin-right: 4px;
+        }
+
+        /* The Separator Pipe (|) */
+        .nav-links a:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: 0;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 100;
+            font-size: 0.7rem;
+            top: 1px;
+        }
+
+        /* Mobile Hide */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+        }
+
+        /* --- SECTION SIZING LOGIC --- */
+        
+        /* 1. HERO: Full Screen */
+        .hero {
+            min-height: 100vh;
+            width: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px;
+            position: relative;
+        }
+
+        /* 2. STANDARD SECTIONS (About, Projects): Normal Height (Fit Content) */
+        .section {
+            width: 100%;
+            /* Removed min-height: 100vh so they are "normal size" */
+            padding: 100px 10%; 
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* 3. QUOTE SECTION: Full Screen (Fit in Screen) */
+        .quote-section {
+            min-height: 100vh;
+            width: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px;
+            background: transparent;
+        }
+
+        /* --- FIX: VISIBLE QUOTE CONTAINER --- */
+        /* --- QUOTE CONTAINER --- */
+        /* --- QUOTE CONTAINER (SPACING FIXED) --- */
+        .quote-text {
+            font-size: 5vw; 
+            font-weight: 100;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            cursor: default;
+            
+            /* FORCE VISIBILITY */
+            background: none !important;
+            -webkit-text-fill-color: initial !important; 
+            color: #ffffff !important;
+            
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            
+            /* INCREASED SPACING HERE */
+            row-gap: 25px;    /* Vertical space between lines */
+            column-gap: 60px; /* Horizontal space between words */
+        }
+
+        /* --- INDIVIDUAL WORDS --- */
+        .quote-word {
+            transition: transform 0.1s ease-out, opacity 0.1s ease-out, color 0.1s;
+            
+            /* Default State (If JS fails, this keeps it visible) */
+            opacity: 0.4; 
+            color: var(--primary-neon); 
+            display: inline-block;
+        }
+
+        /* --- NEW CONTACT SECTION STYLES --- */
+        /* --- CONTACT SECTION (CENTERED) --- */
+        .contact-section {
+            min-height: 100vh;
+            width: 100%; /* Changed from 100vw to avoid scrollbars */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* Reduced padding to let the container decide the width */
+            padding: 0 20px; 
+            background: transparent;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Equal 50/50 split */
+            gap: 60px; /* Tighter gap so they don't look separated */
+            width: 100%;
+            max-width: 1000px; /* Strict max-width forces it to the center */
+            margin: 0 auto;    /* CRITICAL: Force horizontal centering */
+            align-items: center;
+        }
+        .contact-title { font-size: 4rem; margin-bottom: 20px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+        .contact-sub { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.8; }
+        .social-row { display: flex; align-items: center; margin-bottom: 20px; font-size: 1.2rem; color: #fff; }
+        .social-row i { color: var(--text-main); width: 30px; margin-right: 15px; font-size: 1.5rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 25px; }
+        .form-group { display: flex; flex-direction: column; gap: 10px; }
+        .form-group label { color: var(--text-muted); font-size: 0.9rem; letter-spacing: 1px; }
+        .contact-form input, .contact-form textarea {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px; color: #fff; font-family: var(--font-main); font-size: 1rem; border-radius: 5px; transition: 0.3s;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-color: var(--primary-neon); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); background: rgba(0, 243, 255, 0.05);
+        }
+        .submit-btn {
+            margin-top: 10px; padding: 15px; background: var(--primary-neon); color: #000;
+            font-weight: bold; font-family: var(--font-main); border: none; cursor: pointer;
+            font-size: 1.1rem; letter-spacing: 2px; transition: 0.3s; text-transform: uppercase;
+        }
+        .submit-btn:hover { background: #fff; box-shadow: 0 0 20px var(--primary-neon); transform: scale(1.02); }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .contact-container { grid-template-columns: 1fr; }
+            .contact-title { font-size: 3rem; }
+        }
+
+        /* --- SECTION SEPARATOR LINES --- */
+        /* This targets every <section> tag (Hero, About, Projects, Quote, Certs, Contact) */
+        section {
+            position: relative; /* Needed so the line sticks to the bottom of the section */
+        }
+
+        section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            
+            /* The 100px Padding Logic */
+            left: 90px;
+            right: 90px;
+            
+            height: 3px; /* Thickness of the line */
+            
+            /* Gradient: Fades from transparent to Cyan and back to transparent */
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(0, 243, 255, 0.3) 20%, 
+                rgba(0, 243, 255, 0.3) 80%, 
+                transparent 100%
+            );
+            
+            pointer-events: none; /* Ensures clicks pass through it */
+            z-index: 10;
+        }
+
+        /* Mobile Tweak: On small phones, 100px might define a tiny line. 
+           Uncomment this if you want smaller padding on phones. 
+           Otherwise, leave it alone to keep 100px everywhere. */
+        /*
+        @media (max-width: 768px) {
+            section::after {
+                left: 20px;
+                right: 20px;
+            }
+        }
+        */
+
+        /* 4. FOOTER: Normal Height */
+        footer {
+            width: 100%; padding: 50px 0; text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+            color: var(--text-muted);
+        }
+
+        /* --- CERTIFICATIONS (HOLOGRAPHIC CARDS) --- */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .cert-card {
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid rgba(0, 243, 255, 0.2); /* Subtle Cyan Border */
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* The Neon Scanline Effect on Top */
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-neon), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        /* Hover Effects */
+        .cert-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-neon);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.05);
+            background: rgba(20, 20, 30, 0.95);
+        }
+
+        .cert-card:hover::before {
+            transform: translateX(100%); /* Scanline moves across */
+            transition: 0.8s;
+        }
+
+        .cert-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-neon); /* Starts Purple */
+            margin-bottom: 20px;
+            transition: 0.4s;
+        }
+
+        /* Icon spins and turns Cyan on hover */
+        .cert-card:hover .cert-icon {
+            color: var(--primary-neon);
+            transform: rotateY(360deg); 
+        }
+
+        .cert-name { font-size: 1.2rem; margin-bottom: 8px; color: #fff; line-height: 1.3; }
+        .cert-issuer { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .cert-date { font-size: 0.8rem; color: rgba(255,255,255,0.3); margin-bottom: 25px; }
+
+        .cert-link {
+            font-size: 0.9rem;
+            color: var(--primary-neon);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            margin-top: auto; /* Pushes link to bottom */
+        }
+
+        .cert-link:hover {
+            gap: 15px; /* Arrow slides away */
+            text-shadow: 0 0 10px var(--primary-neon);
+        }
+
+        /* --- HERO STYLES --- */
+        .hero h1 {
+            font-size: 4rem; margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--primary-neon));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            animation: swipe-enter 1.2s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
+        }
+        @keyframes swipe-enter {
+            0% { opacity: 0; transform: translateX(100vw); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        .intro-container {
+            margin-bottom: 60px; height: 60px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .static-txt {
+            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; font-weight: bold;
+            background: linear-gradient(90deg, #fff, var(--primary-neon));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0; animation: plain-fade-in 1s ease-out forwards 1.2s;
+        }
+        .dynamic-txt {
+            font-size: 3rem; font-weight: bold; white-space: nowrap;
+            background: linear-gradient(90deg, #fff, var(--primary-neon));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            opacity: 0; transition: opacity 0.5s ease-in-out;
+        }
+        @keyframes plain-fade-in { to { opacity: 0.8; } }
+
+        /* --- NEW BUTTON STYLE (Corners Only) --- */
+        .btn {
+            /* Increase padding slightly for the new look */
+            padding: 15px 40px;
+            background: transparent;
+            color: var(--primary-neon);
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            
+            /* IMPORTANT: Remove the old solid border */
+            border: none;
+
+            /* --- CORNER BORDER LOGIC --- */
+            /* We use 8 separate gradients to draw the 8 lines that make up the 4 corners */
+            background-image:
+                /* Top-Left Corner */
+                linear-gradient(to right, var(--primary-neon) 2px, transparent 2px),
+                linear-gradient(to bottom, var(--primary-neon) 2px, transparent 2px),
+                
+                /* Top-Right Corner */
+                linear-gradient(to left, var(--primary-neon) 2px, transparent 2px),
+                linear-gradient(to bottom, var(--primary-neon) 2px, transparent 2px),
+                
+                /* Bottom-Right Corner */
+                linear-gradient(to left, var(--primary-neon) 2px, transparent 2px),
+                linear-gradient(to top, var(--primary-neon) 2px, transparent 2px),
+                
+                /* Bottom-Left Corner */
+                linear-gradient(to right, var(--primary-neon) 2px, transparent 2px),
+                linear-gradient(to top, var(--primary-neon) 2px, transparent 2px);
+
+            /* Place each gradient pair at its respective corner */
+            background-position:
+                top left, top left,
+                top right, top right,
+                bottom right, bottom right,
+                bottom left, bottom left;
+
+            /* Define the size of the corner 'L' shape (15px x 15px) */
+            background-size: 15px 15px;
+            background-repeat: no-repeat;
+        }
+
+        /* Hover Effect: Fill the button solid and add a glow */
+        .btn:hover {
+            background-color: var(--primary-neon);
+            background-image: none; /* Remove corners so it's a solid block */
+            color: #000;
+            box-shadow: 0 0 25px var(--primary-neon); /* A stronger glow */
+        }
+
+        /* --- CONTENT STYLES --- */
+        .section-title {
+            font-size: 2rem; margin-bottom: 50px;
+            border-left: 4px solid var(--primary-neon); padding-left: 20px; color: var(--text-main);
+        }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; }
+        .skill-tag {
+            background: rgba(0, 243, 255, 0.1); border: 1px solid var(--primary-neon);
+            color: var(--primary-neon); padding: 8px 15px; border-radius: 5px; font-size: 0.9rem;
+        }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .project-card {
+            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px; border-radius: 10px; transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-10px); border-color: var(--primary-neon);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+        .project-card h3 { margin-bottom: 15px; color: var(--primary-neon); }
+        .project-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
+        .card-link { color: #fff; text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--primary-neon); }
+
+        /* --- QUOTE SECTION STYLES (Updated with Glow) --- */
+        .quote-text {
+            font-size: 5vw; font-weight: 100; text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #fff, var(--primary-neon));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            /* Initial slight glow */
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
+            transition: filter 0.4s ease, transform 0.4s ease;
+            cursor: default;
+        }
+        /* HOVER EFFECT: Radial Glow */
+        .quote-text:hover {
+            filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.8)) drop-shadow(0 0 60px rgba(0, 243, 255, 0.4));
+            transform: scale(1.02);
+        }
+        .quote-author { font-size: 1.5rem; color: var(--text-muted); font-weight: 300; letter-spacing: 4px; }
+
+        /* --- SIDE DOT NAVIGATION --- */
+        .side-nav {
+            position: fixed; top: 50%; right: 15px; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 20px; z-index: 99999;
+            background: transparent !important; padding: 10px 5px;
+        }
+        .side-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease; position: relative;
+        }
+        .side-dot::after { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; }
+        .side-dot:hover { background: #fff; transform: scale(1.3); }
+        .side-dot.active {
+            background: var(--primary-neon); box-shadow: 0 0 15px var(--primary-neon);
+            transform: scale(1.5); border-color: var(--primary-neon);
+        }
+
+        /* --- COMET STYLES (Keep as is) --- */
+        .comet-swoop {
+            position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none;
+            width: 125px; height: 7px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9) 40%, #fff 100%);
+            box-shadow: 0 0 35px rgba(255, 255, 255, 1.0), 0 0 15px var(--primary-neon);
+            border-radius: 50px; transform-origin: right center; opacity: 0;
+        }
+
+        /* Mobile Tweak */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .quote-text { font-size: 8vw; } /* Adjust quote for mobile */
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <h1>🚧 <span>Under Construction</span> 🚧</h1>
-    <p>We’re working hard to bring something awesome here.<br>Stay tuned!</p>
-    <div class="loader"></div>
-    <div class="contact">
-      📧 For queries, reach out at <a href="mailto:iameshanofficial@gmail.com">iameshanofficial@gmail.com</a>
-    </div>
-    <div class="social">
-      🌐 Connect with me:
-      <a href="https://github.com/Voyager-Space" target="_blank">GitHub</a> |
-      <a href="https://www.linkedin.com/in/eshanjain23/" target="_blank">LinkedIn</a>
-    </div>
-    <footer>
-      Created By Eshan | ▪︎ <span id="year"></span> ▪︎ All Rights Reserved.
-    </footer>
-  </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+<body>
+
+    <!-- CUSTOM CURSOR DOT -->
+    <div class="cursor-dot"></div>
+
+    <!-- BACKGROUND -->
+    <div class="galaxy-bg">
+        <div class="orb-system">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAV -->
+    <nav id="main-nav">
+        <!-- Socials (Left Side) -->
+        <div class="nav-socials">
+            <a href="https://github.com/Voyager-Space" target="_blank"><i class="fab fa-github"></i></a>
+            <!-- Updated LinkedIn -->
+            <a href="https://www.linkedin.com/in/eshanjain23/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <!-- Kept X as placeholder, remove if you don't have one -->
+            <a href="https://x.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <!-- Updated Email -->
+            <a href="mailto:iameshanofficial@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+        <div class="nav-links">
+            <!-- 01. HOME (Takes you to top) -->
+            <a href="#hero"><span class="nav-num">01.</span> HOME</a>
+            
+            <!-- Renumbered Sections -->
+            <a href="#about"><span class="nav-num">02.</span> ABOUT</a>
+            <a href="#projects"><span class="nav-num">03.</span> PROJECTS</a>
+            <a href="#certifications"><span class="nav-num">04.</span> CERTS</a>
+            <a href="#contact"><span class="nav-num">05.</span> CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="hero">
+        <h1>Hello, I'm Eshan.</h1>
+        <div class="intro-container">
+            <span class="static-txt">I'm a</span>
+            <span class="dynamic-txt" id="word-cycler"></span>
+        </div>
+        <a href="#projects" class="btn">Let's Launch</a>
+    </section>
+
+    <!-- ABOUT -->
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section">
+        <div class="about-grid">
+            <!-- Left Side: Bio -->
+            <div>
+                <h2 class="section-title">About Me</h2>
+                
+                <!-- Personal Info Data Block -->
+                <div style="margin-bottom: 30px; border-left: 2px solid var(--primary-neon); padding-left: 20px; font-size: 0.95rem;">
+                    <p><span style="color: var(--primary-neon);">Degree:</span> Bachelor of Engineering (EEE)</p>
+                    <p><span style="color: var(--primary-neon);">Specialisation:</span> Electrical & Electronics Engineering</p>
+                    <p><span style="color: var(--primary-neon);">City:</span> Bengaluru, India</p>
+                    <p><span style="color: var(--primary-neon);">Email:</span> iameshanofficial@gmail.com</p>
+                </div>
+
+                <!-- Paragraphs -->
+                <div style="color: var(--text-muted); line-height: 1.8; font-size: 0.95rem;">
+                    <p style="margin-bottom: 15px;">
+                        Throughout my academic journey, I’ve built strong experience across embedded electronics, robotics, and physics-based simulations. I’m currently pursuing my B.E. in Electrical & Electronics Engineering at DSCE and actively contributing to engineering projects that combine electronics, software, and applied physics.
+                    </p>
+                    
+                    <p style="margin-bottom: 15px;">
+                        I work with the Avionics Division at <strong>Cygnus</strong>. I’ve been developing a detailed water-rocket and model-rocket flight simulation framework, focusing on accurate physics modelling, real-time visualization, and multi-parameter optimization.
+                    </p>
+
+                    <p style="margin-bottom: 15px;">
+                        My technical interests revolve around microcontrollers, embedded systems, ROS, robotics kinematics, control theory, simulation tools, and high-performance Python/C/C++ workflows. I also explore robot design, with active work on a hexapod robotics project, CAD modelling, and embedded control pipelines.
+                    </p>
+
+                    <p style="margin-bottom: 15px;">
+                        I enjoy working at the intersection of hardware and software — whether it's designing circuits, building simulations, or programming robotics systems. I regularly experiment with avionics sensors, electronics setups, and physics-based systems, while also improving my skills in Linux, ROS, and modern engineering toolchains.
+                    </p>
+                    
+                    <p style="margin-bottom: 15px;">
+                        Outside of engineering, I enjoy drawing anime, watching science and space content, exploring physics ideas, and creating technical content that simplifies complex topics.
+                    </p>
+
+                    <p style="color: #fff; font-style: italic; margin-top: 20px;">
+                        "If it involves rockets, robots, electronics, or a good engineering challenge — that’s usually where I am."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side: Tech Stack -->
+            <div>
+                <h3>Tech Stack</h3>
+                <div class="skills-container">
+                    <span class="skill-tag">C / C++</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Arduino / Embedded</span>
+                    <span class="skill-tag">Ubuntu Linux</span>
+                    <span class="skill-tag">ROS / Isaac Sim</span>
+                    <span class="skill-tag">Algorithmic Trading</span>
+                    <!-- Added based on your bio -->
+                    <span class="skill-tag">Control Theory</span>
+                    <span class="skill-tag">Avionics</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <!-- PROJECTS SECTION -->
+    <section id="projects" class="section">
+        <h2 class="section-title">Selected Projects</h2>
+        
+        <!-- Added style="justify-content: center" to center the single card -->
+        <div class="projects-grid" style="justify-content: center;">
+            
+            <div class="project-card">
+                <h3>Water Rocket Simulator</h3>
+                <p>A Python-based simulation engine to optimize launch parameters, calculating trajectories and nozzle efficiency for competition rockets.</p>
+                <!-- Updated Link -->
+                <a href="https://github.com/Voyager-Space/Water-Rocket-Flight-Simulation" target="_blank" class="card-link">View on GitHub &rarr;</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CERTIFICATIONS SECTION -->
+    <!-- CERTIFICATIONS SECTION -->
+    <section id="certifications" class="section">
+        <h2 class="section-title">Licenses & Certifications</h2>
+        
+        <div class="certs-grid" style="justify-content: center;"> 
+            
+            <!-- Cert 1: Python -->
+            <div class="cert-card">
+                <div class="cert-icon"><i class="fab fa-python"></i></div>
+                <div class="cert-content">
+                    <h3 class="cert-name">100 Days of Code: The Complete Python Pro Bootcamp</h3>
+                    <p class="cert-issuer">Udemy (Angela Yu)</p>
+                    <p class="cert-date">Issued Oct 2024</p>
+                    <a href="#" class="cert-link">View Credential <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Cert 2: Linux for ROS -->
+            <div class="cert-card">
+                <div class="cert-icon"><i class="fab fa-linux"></i></div>
+                <div class="cert-content">
+                    <h3 class="cert-name">Linux for Robotics (ROS)</h3>
+                    <p class="cert-issuer">The Construct</p>
+                    <p class="cert-date">Issued 2025</p>
+                    <a href="#" class="cert-link">View Credential <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- QUOTE SECTION -->
+    <section id="quote" class="quote-section">
+        <!-- The ID 'interactive-quote' is CRITICAL for the JS to find this -->
+        <div id="interactive-quote" class="quote-text">
+            “I don’t fear computers. I fear lack of them.”
+        </div>
+        <p class="quote-author"> — Issac Asimov</p>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact-form" class="contact-section">
+        <div class="contact-container">
+            <!-- Left Side -->
+            <div class="contact-info">
+                <h2 class="contact-title">CONTACT <span style="color: var(--primary-neon);"></span></h2>
+                <p class="contact-sub">
+                    <span style="color: var(--primary-neon); font-weight:bold;">Have a project in mind?</span><br>
+                    My inbox is always open for new opportunities.
+                </p>
+                <div class="contact-socials">
+                    <div class="social-row">
+                        <i class="fab fa-github"></i> 
+                        <span>Voyager-Space</span>
+                    </div>
+                    <div class="social-row">
+                        <i class="fas fa-envelope"></i> 
+                        <!-- Updated Email Text -->
+                        <span>iameshanofficial@gmail.com</span>
+                    </div>
+                    <div class="social-row">
+                        <i class="fab fa-linkedin"></i> 
+                        <!-- Updated LinkedIn Name/Handle -->
+                        <span>eshanjain23</span>
+                    </div>
+                </div>
+                <span class="closing-brace" style="color: var(--primary-neon); font-size: 4rem;"></span>
+            </div>
+            <!-- Right Side (Form) -->
+            <!-- Right Side (Form) -->
+            <!-- We use FormSubmit.co which sends directly to your email -->
+            <form class="contact-form" action="https://formsubmit.co/iameshanofficial@gmail.com" method="POST">
+                
+                <!-- 1. Disable Captcha for instant sending -->
+                <input type="hidden" name="_captcha" value="false">
+                
+                <!-- 2. OPTIONAL: Redirect back to your site after sending (instead of the success page) -->
+                <!-- You can remove this line if you don't mind the success page -->
+                <input type="hidden" name="_next" value="https://voyager-space.github.io/itseshan.space/">
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required placeholder="sender@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" name="subject" required placeholder="Project Inquiry">
+                </div>
+                
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" rows="4" required placeholder="Your message here..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">TRANSMIT DATA</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <p style="font-size: 1.1rem;">
+            &copy; 2025  Eshan. Made With  ❤️, Crafted For Stars
+        </p>
+    </footer>
+
+    <!-- SIDE NAV -->
+    <div class="side-nav">
+        <a href="#hero" class="side-dot active" title="Home"></a>
+        <a href="#about" class="side-dot" title="About"></a>
+        <a href="#projects" class="side-dot" title="Projects"></a>
+        <!-- ADD THIS NEW LINE -->
+        <a href="#certifications" class="side-dot" title="Certifications"></a> 
+        <a href="#quote" class="side-dot" title="Quote"></a>
+        <a href="#contact" class="side-dot" title="Contact"></a>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. HEADER FADE LOGIC
+            let lastScrollTop = 0;
+            const navbar = document.getElementById("main-nav");
+
+            window.addEventListener("scroll", function() {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > lastScrollTop) {
+                    // Scrolling DOWN -> Hide Nav
+                    navbar.classList.add("nav-hidden");
+                } else {
+                    // Scrolling UP -> Show Nav
+                    navbar.classList.remove("nav-hidden");
+                }
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+            });
+
+            // 2. CURSOR DOT FOLLOWER LOGIC (UPDATED)
+            const cursorDot = document.querySelector(".cursor-dot");
+            
+            // Move the star
+            document.addEventListener("mousemove", (e) => {
+                cursorDot.style.left = e.clientX + "px";
+                cursorDot.style.top = e.clientY + "px";
+                
+                // Ensure it is visible when moving inside the window
+                cursorDot.style.opacity = "1";
+            });
+
+            // Hide when mouse leaves the window
+            document.addEventListener("mouseleave", () => {
+                cursorDot.style.opacity = "0";
+            });
+
+            // Show when mouse enters the window
+            document.addEventListener("mouseenter", () => {
+                cursorDot.style.opacity = "1";
+            });
+            // 3. TEXT CYCLER
+            const words = ["Robotics Developer", "Bug Creator", "Expert Solution Finder", "Rocketry Enthusiast", "Voyager"];
+            const textElement = document.getElementById("word-cycler");
+            let index = 0;
+
+            function cycleWords() {
+                textElement.style.opacity = "0";
+                setTimeout(() => {
+                    index++;
+                    if (index === words.length - 1) {
+                        textElement.textContent = words[index];
+                        textElement.style.opacity = "1";
+                        return; 
+                    }
+                    textElement.textContent = words[index];
+                    textElement.style.opacity = "1";
+                    setTimeout(cycleWords, 2000);
+                }, 500);
+            }
+            textElement.textContent = words[0];
+            setTimeout(() => {
+                textElement.style.opacity = "1";
+                setTimeout(cycleWords, 2000);
+            }, 2200);
+
+            // --- 6. RADIAL WORD GLOW LOGIC (HIGH VISIBILITY) ---
+            const quoteContainer = document.getElementById("interactive-quote");
+            
+            if (quoteContainer) { // Safety Check
+                const rawText = quoteContainer.textContent.trim();
+                
+                // 1. Split text
+                quoteContainer.innerHTML = rawText.split(/\s+/).map(word => 
+                    `<span class="quote-word">${word}</span>`
+                ).join(' ');
+
+                const wordsDOM = document.querySelectorAll(".quote-word");
+                const maxDist = 400; // Radius of glow
+
+                // 2. Logic Function
+                function updateGlow(mouseX, mouseY) {
+                    wordsDOM.forEach(word => {
+                        const rect = word.getBoundingClientRect();
+                        const wordX = rect.left + rect.width / 2;
+                        const wordY = rect.top + rect.height / 2;
+                        
+                        const dist = Math.sqrt(Math.pow(mouseX - wordX, 2) + Math.pow(mouseY - wordY, 2));
+                        let intensity = 1 - (dist / maxDist);
+                        
+                        // FIX: Increase minimum opacity so it's never "blank"
+                        if (intensity < 0.4) intensity = 0.4; 
+                        
+                        word.style.opacity = intensity;
+                        word.style.transform = `scale(${1 + (intensity * 0.2)})`;
+                        
+                        // Color: White if close, Neon if far
+                        if (intensity > 0.7) {
+                            word.style.color = "#ffffff";
+                            word.style.textShadow = "0 0 15px rgba(255,255,255,0.8)";
+                        } else {
+                            word.style.color = "var(--primary-neon)";
+                            word.style.textShadow = "none";
+                        }
+                    });
+                }
+
+                // 3. Listen for Mouse
+                document.addEventListener("mousemove", (e) => {
+                    updateGlow(e.clientX, e.clientY);
+                });
+
+                // 4. Initial State (Simulate mouse in center to light it up)
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                updateGlow(centerX, centerY);
+            }
+            // 3. Track Mouse
+            document.addEventListener("mousemove", (e) => {
+                updateGlow(e.clientX, e.clientY);
+            });
+
+            // 4. INITIALIZE IMMEDIATELY (Fixes blank start)
+            // We simulate a mouse far away so text appears dim but visible
+            updateGlow(-1000, -1000);
+
+            // 4. SCROLL SPY
+            const sections = document.querySelectorAll("section, footer");
+            const sideDots = document.querySelectorAll(".side-dot");
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const currentId = entry.target.id;
+                        sideDots.forEach(dot => dot.classList.remove("active"));
+                        const activeDot = document.querySelector(`.side-dot[href="#${currentId}"]`);
+                        if (activeDot) activeDot.classList.add("active");
+                    }
+                });
+            }, { threshold: 0.1 }); // Lower threshold since sections are flexible height now
+            sections.forEach(section => observer.observe(section));
+        });
+
+        // 5. COMET SYSTEM (UNCHANGED AS REQUESTED)
+        let lastClickX = null;
+        let lastClickY = null;
+        document.addEventListener('click', (e) => {
+            const currentX = e.clientX;
+            const currentY = e.clientY;
+            if (lastClickX === null) {
+                const startX = window.innerWidth + 150;
+                const startY = currentY;
+                spawnComet(startX, startY, currentX, currentY);
+            } else {
+                spawnComet(lastClickX, lastClickY, currentX, currentY);
+            }
+            lastClickX = currentX;
+            lastClickY = currentY;
+        });
+        function spawnComet(startX, startY, endX, endY) {
+            const comet = document.createElement('div');
+            comet.classList.add('comet-swoop');
+            document.body.appendChild(comet);
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+            const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+            const offsetX = startX - 120;
+            const targetOffsetX = endX - 120;
+            comet.style.transform = `translate(${offsetX}px, ${startY}px) rotate(${angle}deg)`;
+            comet.style.opacity = "1";
+            const flight = comet.animate([
+                { transform: `translate(${offsetX}px, ${startY}px) rotate(${angle}deg)`, opacity: 1 },
+                { transform: `translate(${targetOffsetX}px, ${endY}px) rotate(${angle}deg)`, opacity: 0 }
+            ], { duration: 350, easing: 'ease-out' });
+            flight.onfinish = () => { comet.remove(); };
+        }
+    </script>
 </body>
 </html>
